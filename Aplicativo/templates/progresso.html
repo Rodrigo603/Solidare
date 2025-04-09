@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Progresso{% endblock %}
+{% block content %}
+<h2>Progresso de {{ aluno.nome }}</h2>
+<div class="card">
+    <h3>Boletim</h3>
+    <table>
+        <tr><th>Matéria</th><th>Nota</th><th>Frequência (%)</th></tr>
+        {% for b in boletins %}
+        <tr><td>{{ b.materia }}</td><td>{{ b.nota }}</td><td>{{ b.frequencia }}</td></tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="card">
+    <h3>Comentários dos Professores</h3>
+    {% for c in comentarios %}<p>{{ c.data }}: {{ c.comentario }}</p>{% endfor %}
+</div>
+{% endblock %}

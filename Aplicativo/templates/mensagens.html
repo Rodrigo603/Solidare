@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Mensagens{% endblock %}
+{% block content %}
+<h2>Mensagens com Alunos</h2>
+{% for aluno in alunos %}
+    <div class="card">
+        <h3>{{ aluno.nome }}</h3>
+        <a href="#">Abrir Conversa {% if aluno.mensagens_nao_lidas %}<span class="badge">{{ aluno.mensagens_nao_lidas }}</span>{% endif %}</a>
+    </div>
+{% endfor %}
+{% endblock %}
