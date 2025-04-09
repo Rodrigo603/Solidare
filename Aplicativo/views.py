@@ -1,9 +1,15 @@
 from django.shortcuts import render
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from .models import Aluno, Mensagem, Doacao, Boletim, ComentarioProfessor, Indicacao, FeedbackEmpresa
+
+
 
 
 # VIEWS DE EXEMPLO
+
+def home_view(request):
+    return render(request, 'home.html')
+
 @login_required
 def mensagens_view(request):
     alunos = Aluno.objects.filter(apadrinhado_por=request.user)
