@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sistema{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Apadrinhamento</h1>
+    </header>
+    <nav>
+        <a href="/mensagens/">Mensagens</a>
+        <a href="/doacoes/">Doações</a>
+        <a href="/impacto/">Meu Impacto</a>
+        <a href="/talentos/">Banco de Talentos</a>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2025 - Sistema de Apadrinhamento</p>
+    </footer>
+</body>
+</html>

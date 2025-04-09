@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Banco de Talentos{% endblock %}
+{% block content %}
+<h2>Banco de Talentos</h2>
+{% for aluno in alunos %}
+    <div class="card">
+        <h3>{{ aluno.nome }}</h3>
+        <a href="#">Indicar para vaga</a>
+    </div>
+{% endfor %}
+{% endblock %}
