@@ -5,6 +5,11 @@
   <div class="auth-box">
     <h2>Cadastro</h2>
     <form method="post">
+        {% csrf_token %}
+      
+        {% if form.non_field_errors %}
+          <div class="form-error">{{ form.non_field_errors.0 }}</div>
+        {% endif %}
       {% csrf_token %}
 
       <label for="id_username">Usuário:</label>
