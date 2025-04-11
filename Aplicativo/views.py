@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from .models import Aluno, Mensagem, Doacao, Boletim, ComentarioProfessor, Indicacao, FeedbackEmpresa
-
+from django.contrib.auth import login
+from django.shortcuts import redirect
 
 
 
@@ -9,6 +11,17 @@ from .models import Aluno, Mensagem, Doacao, Boletim, ComentarioProfessor, Indic
 
 def home_view(request):
     return render(request, 'home.html')
+
+def registrar_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            usuario = form.save()
+            login(request, usuario)
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/registrar.html', {'form': form})
 
 @login_required
 def mensagens_view(request):

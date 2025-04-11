@@ -11,10 +11,18 @@
         <h1>Apadrinhamento</h1>
     </header>
     <nav>
-        <a href="/mensagens/">Mensagens</a>
-        <a href="/doacoes/">Doações</a>
-        <a href="/impacto/">Meu Impacto</a>
-        <a href="/talentos/">Banco de Talentos</a>
+        <a href="{% url 'mensagens' %}">Mensagens</a>
+        <a href="{% url 'doacoes' %}">Doações</a>
+        <a href="{% url 'impacto' %}">Meu Impacto</a>
+        <a href="{% url 'banco_talentos' %}">Banco de Talentos</a>
+
+        {% if user.is_authenticated %}
+            <span style="margin-left: 2rem;">Bem-vindo, {{ user.username }}</span>
+            <a href="{% url 'logout' %}">Sair</a>
+        {% else %}
+            <a href="{% url 'login' %}">Entrar</a>
+            <a href="{% url 'registrar' %}">Registrar</a>
+        {% endif %}
     </nav>
     <main>
         {% block content %}{% endblock %}
