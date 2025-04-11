@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
-{% block title %}Login{% endblock %}
+{% block title %}Entrar{% endblock %}
 {% block content %}
-<h2>Entrar no sistema</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Entrar</button>
-</form>
+<div class="auth-box">
+    <h2>Entrar no Sistema</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Entrar</button>
+    </form>
+    <p>Ainda não tem uma conta? <a href="{% url 'registrar' %}">Cadastre-se</a></p>
+</div>
 {% endblock %}
