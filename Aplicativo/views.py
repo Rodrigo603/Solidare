@@ -50,3 +50,7 @@ def impacto_view(request):
 def banco_talentos_view(request):
     alunos = Aluno.objects.all()
     return render(request, 'banco_talentos.html', {'alunos': alunos})
+
+@login_required
+def apadrinhamento_view(request):
+    return render(request, 'apadrinhamento.html')
