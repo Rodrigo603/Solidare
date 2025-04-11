@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 {% block title %}Cadastro{% endblock %}
 {% block content %}
-<div class="auth-box">
-    <h2>Criar Conta</h2>
+<div class="auth-wrapper">
+  <div class="auth-box">
+    <h2>Cadastro</h2>
     <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Cadastrar</button>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Cadastrar</button>
     </form>
-    <p>Já tem conta? <a href="{% url 'login' %}">Faça login</a></p>
+    <p>Já tem conta? <a href="{% url 'login' %}">Entrar</a></p>
+  </div>
 </div>
 {% endblock %}
