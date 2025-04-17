@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Perfil{% endblock %}
+{% block content %}
+<div class="auth-wrapper">
+  <div class="auth-box">
+    <h2>Perfil do Usuário</h2>
+    
+    {% if foto %}
+      <img src="{{ foto }}" alt="Foto de perfil" style="width: 100px; border-radius: 50%; margin-bottom: 1rem;">
+    {% endif %}
+    
+    <p><strong>Usuário:</strong> {{ username }}</p>
+    <p><strong>Email:</strong> {{ email }}</p>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Salvar Alterações</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

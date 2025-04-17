@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Aluno, Mensagem, Doacao, Boletim, ComentarioProfessor, Indicacao, FeedbackEmpresa
 from django.contrib.auth import login
 from django.shortcuts import redirect
+from .forms import ProfileForm
 
 
 
@@ -54,3 +55,19 @@ def banco_talentos_view(request):
 @login_required
 def apadrinhamento_view(request):
     return render(request, 'apadrinhamento.html')
+
+@login_required
+def perfil_view(request):
+    profile = request.user.profile
+    form = ProfileForm(request.POST or None, request.FILES or None, instance=profile)
+
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Perfil atualizado com sucesso!")
+
+    return render(request, 'perfil.html', {
+        'form': form,
+        'email': request.user.email,
+        'username': request.user.username,
+        'foto': profile.foto.url if profile.foto else None,
+    })

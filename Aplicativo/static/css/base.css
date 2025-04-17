@@ -128,8 +128,8 @@ main {
 }
 
 .hero-image {
-  width: 60%;
-  max-width: 600px;
+  width: 80%;
+  max-width: 800px;
   height: auto;
   margin-bottom: 2rem;
   border-radius: 12px;
@@ -172,4 +172,10 @@ main {
   text-decoration: none;
   font-weight: 500;
   border-radius: 5px;
+}
+
+header img[alt="Perfil"] {
+  vertical-align: middle;
+  border-radius: 50%;
+  cursor: pointer;
 }
