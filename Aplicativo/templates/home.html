@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Início{% endblock %}
 
 {% block content %}
-<h2>Bem-vindo ao Sistema de Apadrinhamento</h2>
-<p>Use o menu acima para navegar.</p>
+<div class="home-hero">
+  <img src="{% static 'img/hero-placeholder.jpg' %}" alt="Imagem destaque" class="hero-image">
+
+  <div class="hero-buttons">
+    <a href="{% url 'doacoes' %}" class="hero-btn">Faça uma Doação</a>
+    <a href="{% url 'apadrinhar' %}" class="hero-btn">Apadrinhe um Aluno</a>
+  </div>
+</div>
 {% endblock %}
