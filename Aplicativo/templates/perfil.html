@@ -1,22 +1,54 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block title %}Perfil{% endblock %}
 {% block content %}
-<div class="auth-wrapper">
-  <div class="auth-box">
-    <h2>Perfil do Usuário</h2>
-    
-    {% if foto %}
-      <img src="{{ foto }}" alt="Foto de perfil" style="width: 100px; border-radius: 50%; margin-bottom: 1rem;">
-    {% endif %}
-    
-    <p><strong>Usuário:</strong> {{ username }}</p>
-    <p><strong>Email:</strong> {{ email }}</p>
+<div class="profile-container">
+  <h2>Perfil do Usuário</h2>
 
-    <form method="post" enctype="multipart/form-data">
+  {% if foto %}
+    <img src="{{ foto }}" alt="Foto de perfil" class="profile-picture">
+  {% endif %}
+
+  {% if not is_editing %}
+    <p><strong>Usuário:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ email }}</p>
+    <p><strong>Nome:</strong> {{ profile.nome }}</p>
+    <p><strong>Descrição:</strong> {{ profile.descricao }}</p>
+    <div class="edit-btn-container">
+      <a href="?editar=1" class="hero-btn">Editar Perfil</a>
+    </div>
+  {% else %}
+    <form method="post" enctype="multipart/form-data" class="profile-form">
       {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Salvar Alterações</button>
+
+      <div class="form-group">
+        <label for="{{ form.foto.id_for_label }}">Foto de perfil:</label>
+        {% if form.foto.value %}
+            <p><strong>Atualmente:</strong> <a href="{{ form.foto.value.url }}">{{ form.foto.value.name }}</a></p>
+            <button type="submit" name="foto-clear" value="true" class="hero-btn" style="margin-bottom: 1rem;">Limpar Foto</button>
+        {% endif %}
+        <p><strong>Modificar:</strong></p>
+        <input type="file" name="foto" id="id_foto">
+      </div>
+
+      <div class="form-group">
+        <label for="id_nome">Nome:</label>
+        {{ form.nome }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_descricao">Descrição:</label>
+        {{ form.descricao }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_email">Email:</label>
+        <input type="email" name="email" id="id_email" value="{{ email }}" required>
+      </div>
+
+      <button type="submit" class="hero-btn">Salvar Alterações</button>
     </form>
-  </div>
+  {% endif %}
 </div>
 {% endblock %}

@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from .models import Aluno, Mensagem, Doacao, Boletim, ComentarioProfessor, Indicacao, FeedbackEmpresa
+from .models import Aluno, Mensagem, Doacao, Boletim, ComentarioProfessor, Indicacao, FeedbackEmpresa, Profile
 from django.contrib.auth import login
 from django.shortcuts import redirect
 from .forms import ProfileForm
+from django.contrib import messages
 
 
 
@@ -58,16 +59,27 @@ def apadrinhamento_view(request):
 
 @login_required
 def perfil_view(request):
-    profile = request.user.profile
-    form = ProfileForm(request.POST or None, request.FILES or None, instance=profile)
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+    is_editing = request.GET.get('editar') == '1'
 
-    if form.is_valid():
-        form.save()
-        messages.success(request, "Perfil atualizado com sucesso!")
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            # Atualiza o email diretamente no modelo User
+            request.user.email = request.POST.get('email')
+            request.user.save()
+            profile.save()
+            messages.success(request, "Perfil atualizado com sucesso!")
+            return redirect('perfil')
+    else:
+        form = ProfileForm(instance=profile)
 
     return render(request, 'perfil.html', {
         'form': form,
         'email': request.user.email,
         'username': request.user.username,
         'foto': profile.foto.url if profile.foto else None,
+        'profile': profile,
+        'is_editing': is_editing,
     })

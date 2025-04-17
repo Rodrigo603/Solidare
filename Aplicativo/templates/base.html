@@ -3,43 +3,50 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Sistema{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    {% load static %}
+    <title>{% block title %}Solidare{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
-    <header style="background-color: #d9d9d9; padding: 1rem; display: flex; align-items: center; justify-content: space-between;">
-        <div style="display: flex; align-items: center;">
-          <a href="{% url 'home' %}" style="display: block; width: 80px; height: 90px; background-color: #444; margin-right: 1rem;"></a>
-          <a href="{% url 'doacoes' %}" style="margin-right: 2rem; color: black; font-weight: 400; text-decoration: none;">Faça sua doação</a>
-          <a href="{% url 'apadrinhar' %}" style="margin-right: 2rem; color: black; font-weight: 400; text-decoration: none;">Apadrinhe um aluno</a>
-          <a href="{% url 'mensagens' %}" style="margin-right: 2rem; color: black; font-weight: 400; text-decoration: none;">Mensagens</a>
-          <a href="{% url 'impacto' %}" style="margin-right: 2rem; color: black; font-weight: 400; text-decoration: none;">Meu Impacto</a>
-          <a href="{% url 'banco_talentos' %}" style="margin-right: 2rem; color: black; font-weight: 400; text-decoration: none;">Banco de Talentos</a>
-        </div>
-        <div>
-          {% if user.is_authenticated %}
-            <a href="{% url 'perfil' %}" title="Perfil">
-              <img src="{% static 'img/user-icon.jpg' %}" alt="Perfil" style="height: 32px; vertical-align: middle; margin-right: 1rem;">
-            </a>
-            <form method="post" action="{% url 'logout' %}" style="display:inline;">
-              {% csrf_token %}
-              <button type="submit" style="background:none; border:none; color:black; font-weight:400; cursor:pointer;">Sair</button>
-            </form>
-          {% else %}
-            <a href="{% url 'login' %}" style="color: black; font-weight: 700; margin-right: 1rem;">Login</a>
-            <a href="{% url 'registrar' %}" style="color: black; font-weight: 400;">Cadastro</a>
-          {% endif %}
+    <header style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center;">
+        <a href="{% url 'home' %}">
+          <img src="{% static 'img/logo.png' %}" alt="Logo do site" style="width: 80px; height: 90px; margin-right: 1rem;">
+        </a>
+        <nav>
+          <a href="{% url 'mensagens' %}">Mensagens</a>
+          <a href="{% url 'doacoes' %}">Doações</a>
+          <a href="{% url 'impacto' %}">Meu Impacto</a>
+          <a href="{% url 'banco_talentos' %}">Banco de Talentos</a>
+          <a href="{% url 'apadrinhar' %}">Apadrinhe</a>
+        </nav>
+      </div>
+    
+      <div style="display: flex; align-items: center;">
+        {% if user.is_authenticated %}
+          <a href="{% url 'perfil' %}">
+            {% if user.profile.foto %}
+              <img src="{{ user.profile.foto.url }}" alt="Perfil" class="header-profile-pic">
+            {% else %}
+              <img src="{% static 'img/user-icon.jpg' %}" alt="Ícone padrão" class="header-profile-pic">
+            {% endif %}
+          </a>
+          <form method="post" action="{% url 'logout' %}" style="display:inline; margin-left: 1rem;">
+            {% csrf_token %}
+            <button type="submit" style="background:none; border:none; color:white; font-weight:400; cursor:pointer;">Sair</button>
+          </form>
+        {% else %}
+          <a href="{% url 'login' %}" style="color: white; font-weight: 700; margin-right: 1rem;">Login</a>
+          <a href="{% url 'registrar' %}" style="color: white; font-weight: 400;">Cadastro</a>
+        {% endif %}
+      </div>
+    </header>  
 
-        </div>
-      </header>
-      
     <main>
         {% block content %}{% endblock %}
     </main>
+
     <footer>
-        <p>&copy; 2025 - Sistema de Apadrinhamento</p>
+        <p>&copy; 2025 - Solidare</p>
     </footer>
 </body>
 </html>

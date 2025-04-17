@@ -13,6 +13,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'Perfil de {self.user.username}'
+    
+    @property
+    def foto_url(self):
+        if self.foto:
+            return self.foto.url
+        return '/static/img/user-icon.jpg'
 
 @receiver(post_save, sender=User)
 def criar_ou_atualizar_perfil(sender, instance, created, **kwargs):
