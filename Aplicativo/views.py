@@ -1,29 +1,41 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from .models import Aluno, Mensagem, Doacao, Boletim, ComentarioProfessor, Indicacao, FeedbackEmpresa, Profile
-from django.contrib.auth import login
-from django.shortcuts import redirect
-from .forms import ProfileForm
+from django.contrib.auth.models import User
+from django.contrib.auth import login,authenticate
 from django.contrib import messages
-
-
-
-# VIEWS DE EXEMPLO
+from .models import Aluno, Mensagem, Doacao, Boletim, ComentarioProfessor, Profile
+from django.db import IntegrityError
 
 def home_view(request):
     return render(request, 'home.html')
 
 def registrar_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            usuario = form.save()
-            login(request, usuario)
+        username = request.POST.get('username', '').strip()
+        email = request.POST.get('email', '').strip()
+        password1 = request.POST.get('password1', '')
+        password2 = request.POST.get('password2', '')
+
+        if password1 != password2:
+            messages.error(request, "As senhas não coincidem.")
+            return render(request, 'registration/registrar.html')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Nome de usuário já existe.")
+            return render(request, 'registration/registrar.html')
+
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Já existe uma conta com este e-mail.")
+            return render(request, 'registration/registrar.html')
+
+        try:
+            user = User.objects.create_user(username=username, email=email, password=password1)
+            login(request, user)
             return redirect('home')
-    else:
-        form = UserCreationForm()
-    return render(request, 'registration/registrar.html', {'form': form})
+        except IntegrityError:
+            messages.error(request, "Erro ao criar o usuário.")
+    
+    return render(request, 'registration/registrar.html')
 
 @login_required
 def mensagens_view(request):
@@ -63,22 +75,25 @@ def perfil_view(request):
     is_editing = request.GET.get('editar') == '1'
 
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            # Atualiza o email diretamente no modelo User
-            request.user.email = request.POST.get('email')
-            request.user.save()
-            profile.save()
-            messages.success(request, "Perfil atualizado com sucesso!")
-            return redirect('perfil')
-    else:
-        form = ProfileForm(instance=profile)
+        bio = request.POST.get('bio')
+        foto = request.FILES.get('foto')
+        email = request.POST.get('email')
+
+        request.user.email = email
+        request.user.save()
+
+        if bio:
+            profile.bio = bio
+        if foto:
+            profile.foto = foto
+        profile.save()
+
+        messages.success(request, "Perfil atualizado com sucesso!")
+        return redirect('perfil')
 
     return render(request, 'perfil.html', {
-        'form': form,
         'email': request.user.email,
-        'username': request.user.username,
+        'usuario': request.user.usuario,
         'foto': profile.foto.url if profile.foto else None,
         'profile': profile,
         'is_editing': is_editing,
