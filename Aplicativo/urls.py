@@ -1,11 +1,12 @@
 from django.urls import path
 from .views import home_view, mensagens_view, doacoes_view, progresso_view
 from .views import impacto_view, banco_talentos_view, registrar_view, apadrinhamento_view
-from .views import perfil_view
+from .views import perfil_view, registro_apadrinhado_view,login_view
 
 urlpatterns = [
     path('', home_view, name='home'),
     path('registrar/', registrar_view, name='registrar'),
+    path('login/', login_view, name='login'),
     path('mensagens/', mensagens_view, name='mensagens'),
     path('doacoes/', doacoes_view, name='doacoes'),
     path('progresso/<int:aluno_id>/', progresso_view, name='progresso'),
@@ -13,6 +14,5 @@ urlpatterns = [
     path('talentos/', banco_talentos_view, name='banco_talentos'),
     path('apadrinhar/', apadrinhamento_view, name='apadrinhar'),
     path('perfil/', perfil_view, name='perfil'),
-
-
+    path('registrarapadrinhado/', registro_apadrinhado_view, name='registrar_apadrinhado')
 ]

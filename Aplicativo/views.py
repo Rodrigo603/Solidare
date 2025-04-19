@@ -18,15 +18,15 @@ def registrar_view(request):
 
         if password1 != password2:
             messages.error(request, "As senhas não coincidem.")
-            return render(request, 'registration/registrar.html')
+            return render(request, 'registrar.html')
 
         if User.objects.filter(username=username).exists():
             messages.error(request, "Nome de usuário já existe.")
-            return render(request, 'registration/registrar.html')
+            return render(request, 'registrar.html')
 
         if User.objects.filter(email=email).exists():
             messages.error(request, "Já existe uma conta com este e-mail.")
-            return render(request, 'registration/registrar.html')
+            return render(request, 'registrar.html')
 
         try:
             user = User.objects.create_user(username=username, email=email, password=password1)
@@ -35,9 +35,32 @@ def registrar_view(request):
         except IntegrityError:
             messages.error(request, "Erro ao criar o usuário.")
     
-    return render(request, 'registration/registrar.html')
+    return render(request, 'registrar.html')
 
-@login_required
+def registro_apadrinhado_view(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome', '').strip()
+        idade = request.POST.get('idade', '')
+        genero = request.POST.get('genero', '')
+
+        if not nome or not idade or not genero:
+            messages.error(request, "Todos os campos são obrigatórios.")
+            return render(request, 'registro_apadrinhado.html')
+    return render(request,'registro_apadrinhado.html')
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            return render(request, "login.html", {"erro": "Usuário ou senha inválidos"})
+
+    return render(request, "login.html")
+
 def mensagens_view(request):
     alunos = Aluno.objects.filter(apadrinhado_por=request.user)
     return render(request, 'mensagens.html', {'alunos': alunos})

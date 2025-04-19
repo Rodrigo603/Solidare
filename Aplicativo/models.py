@@ -31,6 +31,19 @@ class Aluno(models.Model):
     foto = models.ImageField(upload_to='alunos_fotos/')
     apadrinhado_por = models.ForeignKey(User, on_delete=models.CASCADE, related_name='apadrinhados')
 
+class Apadrinhado(models.Model):
+    GENERO_CHOICES = [
+        ('M','Masculino'),
+        ('F','Feminino'),
+    ]
+
+    nome = models.CharField(max_length=100)
+    idade = models.PositiveIntegerField()
+    genero = models.CharField(max_length=1, choices=GENERO_CHOICES)
+
+    def __str__(self):
+        return self.nome
+
 class Mensagem(models.Model):
     remetente = models.ForeignKey(User, on_delete=models.CASCADE)
     destinatario = models.ForeignKey(Aluno, on_delete=models.CASCADE)
