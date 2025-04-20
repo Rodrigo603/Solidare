@@ -4,6 +4,17 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 # MODELS
+class Perfil(models.Model):
+    TIPOS_USUARIO = (
+        ('administrador', 'Administrador'),
+        ('colaborador', 'Colaborador'),
+    )
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    tipo_usuario = models.CharField(max_length=20, choices=TIPOS_USUARIO)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.get_tipo_usuario_display()}"
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

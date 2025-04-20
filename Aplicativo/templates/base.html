@@ -30,8 +30,6 @@
               <img src="{% static 'img/user-icon.jpg' %}" alt="Ícone padrão" class="header-profile-pic">
             {% endif %}
           </a>
-          <form method="post" action="{% url 'logout' %}" style="display:inline; margin-left: 1rem;">
-            {% csrf_token %}
             <button type="submit" style="background:none; border:none; color:white; font-weight:400; cursor:pointer;">Sair</button>
           </form>
         {% else %}

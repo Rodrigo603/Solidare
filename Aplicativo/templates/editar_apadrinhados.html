@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Editar apadrinhados {% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1><i class="fas fa-edit"></i> Editar apadrinhados</h1>
+</section>
+
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="nome">Nome do apadrinhado:</label>
+            <input type="text" id="nome" name="nome" value="{{ apadrinhado.nome }}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="idade">Idade:</label>
+            <input type="number" id="idade" name="idade" value="{{ apadrinhado.idade }}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="genero">Gênero:</label>
+            <input type="text" id="genero" name="genero" value="{{ apadrinhado.genero }}" class="form-control" required>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn"><i class="fas fa-save"></i> Salvar</button>
+            <a href="{% url 'lista_apadrinhados' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -10,7 +10,11 @@
         {% if form.non_field_errors %}
           <div class="form-error">{{ form.non_field_errors.0 }}</div>
         {% endif %}
-
+        <label for="id_tipo_usuario">Tipo de usuário:</label>
+        <select name="tipo_usuario" id="id_tipo_usuario">
+            <option value="colaborador">Colaborador</option>
+            <option value="administrador">Administrador</option>
+        </select>
         <label for="id_username">Usuário:</label>
         <input type="text" name="username" id="id_username" value="{{ form.username.value|default:'' }}">
         {% if form.username.errors %}

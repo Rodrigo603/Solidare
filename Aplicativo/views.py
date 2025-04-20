@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login,authenticate
 from django.contrib import messages
-from .models import Aluno, Mensagem, Doacao, Boletim, ComentarioProfessor, Profile
+from .models import Aluno, Doacao, Boletim, ComentarioProfessor, Perfil
 from django.db import IntegrityError
+from .models import Apadrinhado
+from django.http import HttpResponseForbidden
 
 def home_view(request):
     return render(request, 'home.html')
@@ -15,6 +17,7 @@ def registrar_view(request):
         email = request.POST.get('email', '').strip()
         password1 = request.POST.get('password1', '')
         password2 = request.POST.get('password2', '')
+        tipo_usuario = request.POST.get('tipo_usuario', 'colaborador')  
 
         if password1 != password2:
             messages.error(request, "As senhas não coincidem.")
@@ -30,14 +33,17 @@ def registrar_view(request):
 
         try:
             user = User.objects.create_user(username=username, email=email, password=password1)
+            Perfil.objects.create(user=user, tipo_usuario=tipo_usuario)
             login(request, user)
-            return redirect('home')
+            return redirect('login.html')
         except IntegrityError:
             messages.error(request, "Erro ao criar o usuário.")
-    
     return render(request, 'registrar.html')
 
-def registro_apadrinhado_view(request):
+
+def registrar_apadrinhado_view(request):
+    if not request.user.perfil.tipo_usuario == 'administrador':
+        return HttpResponseForbidden("Apenas administradores podem cadastrar apadrinhados.")
     if request.method == 'POST':
         nome = request.POST.get('nome', '').strip()
         idade = request.POST.get('idade', '')
@@ -45,8 +51,20 @@ def registro_apadrinhado_view(request):
 
         if not nome or not idade or not genero:
             messages.error(request, "Todos os campos são obrigatórios.")
-            return render(request, 'registro_apadrinhado.html')
-    return render(request,'registro_apadrinhado.html')
+            return render(request, 'registrar_apadrinhado.html')
+        
+        try:
+            Apadrinhado.objects.create(
+                nome=nome,
+                idade=idade,
+                genero=genero
+            )
+            messages.success(request, "Apadrinhado cadastrado com sucesso!")
+            return redirect('lista_apadrinhados')
+        except Exception:
+            messages.error(request, "Erro ao cadastrar apadrinhado.")
+            
+    return render(request, 'registrar_apadrinhado.html')
 
 def login_view(request):
     if request.method == "POST":
@@ -60,9 +78,49 @@ def login_view(request):
             return render(request, "login.html", {"erro": "Usuário ou senha inválidos"})
 
     return render(request, "login.html")
+@login_required
+def lista_apadrinhados(request):
+    
+    try:
+        perfil = request.user.perfil
+    except Perfil.DoesNotExist:
+        messages.error(request, "Cadastre-se como administrador para acessar essa página.")
+        return redirect('home')
+    
+    if perfil.tipo_usuario != 'administrador':
+        return HttpResponseForbidden("Acesso restrito a administradores.")
+
+    apadrinhados = Apadrinhado.objects.all()  
+    return render(request, "lista_apadrinhados.html", {'apadrinhados': apadrinhados})
+
+@login_required
+def editar_apadrinhados(request,apadrinhado_id):
+    if request.user.perfil.tipo_usuario != 'administrador':
+        return redirect('home')
+    
+    apadrinhado = get_object_or_404(Apadrinhado, id=apadrinhado_id)
+
+    if request.method == 'POST':
+        apadrinhado.nome = request.POST.get('nome')
+        apadrinhado.idade = request.POST.get('idade')
+        apadrinhado.genero = request.POST.get('genero')
+        apadrinhado.save()
+        return redirect('lista_apadrinhados')
+
+    return render(request, 'editar_apadrinhados.html', {'apadrinhado': apadrinhado})
+
+@login_required
+def excluir_apadrinhado(request, apadrinhado_id):
+
+    if request.user.perfil.tipo_usuario != 'administrador':
+        return redirect('home')
+    apadrinhado = get_object_or_404(Apadrinhado, id=apadrinhado_id)
+    if request.method == 'POST':
+        apadrinhado.delete()
+    return redirect('lista_apadrinhados')
 
 def mensagens_view(request):
-    alunos = Aluno.objects.filter(apadrinhado_por=request.user)
+    alunos = Aluno.objects.filter(aluno_por=request.user)
     return render(request, 'mensagens.html', {'alunos': alunos})
 
 @login_required
@@ -80,7 +138,7 @@ def progresso_view(request, aluno_id):
 def impacto_view(request):
     doacoes = Doacao.objects.filter(usuario=request.user)
     total = sum(d.valor for d in doacoes if d.valor)
-    alunos = Aluno.objects.filter(apadrinhado_por=request.user).count()
+    alunos = Aluno.objects.filter(aluno_por=request.user).count()
     return render(request, 'impacto.html', {'total_doado': total, 'num_alunos': alunos})
 
 @login_required
