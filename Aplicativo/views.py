@@ -170,6 +170,20 @@ def indicar_aluno(request):
     return render(request, 'indicacoes/indicar.html', {'form': form})
 
 @login_required
+def registrar_contratacao(request):
+    if request.method == 'POST':
+        form = ContratacaoForm(request.POST)
+        if form.is_valid():
+            contratacao = form.save(commit=False)
+            contratacao.registrada_por = request.user
+            contratacao.save()
+            return redirect('sucesso_contratacao')
+    else:
+        form = ContratacaoForm()
+
+    return render(request, 'contratacoes/registrar.html', {'form': form})
+
+@login_required
 def perfil_view(request):
     profile, _ = Profile.objects.get_or_create(user=request.user)
     is_editing = request.GET.get('editar') == '1'
