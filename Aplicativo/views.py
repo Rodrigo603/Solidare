@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.contrib.auth import login,authenticate
+from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 from .models import Aluno, Doacao, Boletim, ComentarioProfessor, Perfil
 from django.db import IntegrityError
@@ -35,7 +35,7 @@ def registrar_view(request):
             user = User.objects.create_user(username=username, email=email, password=password1)
             Perfil.objects.create(user=user, tipo_usuario=tipo_usuario)
             login(request, user)
-            return redirect('login.html')
+            return redirect('login')
         except IntegrityError:
             messages.error(request, "Erro ao criar o usuário.")
     return render(request, 'registrar.html')
@@ -79,6 +79,11 @@ def login_view(request):
 
     return render(request, "login.html")
 @login_required
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
 def lista_apadrinhados(request):
     
     try:
