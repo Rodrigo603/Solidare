@@ -1,12 +1,31 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-  <div class="container mt-4">
-    <h2>Indicar Aluno para Vaga</h2>
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-primary">Enviar Indicação</button>
-    </form>
-  </div>
+<h2>Indicar aluno</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {% for message in messages %}
+    <p class="text-red-500">{{ message }}</p>
+  {% endfor %}
+
+  <label>Aluno:</label><br>
+  <select name="aluno_id">
+    <option value="">-- selecione --</option>
+    {% for a in alunos %}
+      <option value="{{ a.id }}">{{ a.nome }}</option>
+    {% endfor %}
+  </select><br>
+
+  <label>Empresa:</label><br>
+  <input type="text" name="empresa" maxlength="100"><br>
+
+  <label>Descrição da vaga:</label><br>
+  <textarea name="descricao_vaga"></textarea><br>
+
+  <label>Recomendação:</label><br>
+  <textarea name="recomendacao"></textarea><br>
+
+  <button type="submit">Enviar indicação</button>
+</form>
 {% endblock %}

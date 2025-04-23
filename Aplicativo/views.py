@@ -7,6 +7,7 @@ from .models import Aluno, Doacao, Boletim, ComentarioProfessor, Perfil
 from django.db import IntegrityError
 from .models import Apadrinhado
 from django.http import HttpResponseForbidden
+from .models import Indicacao, Contratacao
 
 def home_view(request):
     return render(request, 'home.html')
@@ -158,30 +159,74 @@ def apadrinhamento_view(request):
 @login_required
 def indicar_aluno(request):
     if request.method == 'POST':
-        form = IndicacaoForm(request.POST)
-        if form.is_valid():
-            indicacao = form.save(commit=False)
-            indicacao.colaborador = request.user
-            indicacao.save()
-            return redirect('sucesso_indicacao')
-    else:
-        form = IndicacaoForm()
+        # capturar dados
+        aluno_id        = request.POST.get('aluno_id')
+        empresa         = request.POST.get('empresa')
+        descricao_vaga  = request.POST.get('descricao_vaga')
+        recomendacao    = request.POST.get('recomendacao')
 
-    return render(request, 'indicacoes/indicar.html', {'form': form})
+        # validação mínima
+        erros = []
+        if not aluno_id:
+            erros.append('Selecione o aluno.')
+        if not empresa:
+            erros.append('Nome da empresa é obrigatório.')
+        if not descricao_vaga:
+            erros.append('Descreva a vaga.')
+        if not recomendacao:
+            erros.append('Escreva sua recomendação.')
+
+        # exibir erros, se houver
+        if erros:
+            for erro in erros:
+                messages.error(request, erro)
+        else:
+            try:
+                aluno = Aluno.objects.get(id=aluno_id)
+            except Aluno.DoesNotExist:
+                messages.error(request, 'Aluno não encontrado.')
+            else:
+                Indicacao.objects.create(
+                    aluno       = aluno,
+                    colaborador = request.user,
+                    empresa     = empresa,
+                    descricao_vaga = descricao_vaga,
+                    recomendacao = recomendacao,
+                    # status fica no default “Pendente”
+                )
+                return redirect('sucesso_indicacao')
+
+    # GET ou POST inválido → mostra o formulário
+    alunos = Aluno.objects.all()   # para popular um <select>
+    return render(request, 'indicar.html', {'alunos': alunos})
 
 @login_required
 def registrar_contratacao(request):
     if request.method == 'POST':
-        form = ContratacaoForm(request.POST)
-        if form.is_valid():
-            contratacao = form.save(commit=False)
-            contratacao.registrada_por = request.user
-            contratacao.save()
-            return redirect('sucesso_contratacao')
-    else:
-        form = ContratacaoForm()
+        aluno_id        = request.POST.get('aluno_id')
+        data_admissao   = request.POST.get('data_admissao')
+        cargo           = request.POST.get('cargo')
+        salario         = request.POST.get('salario')
 
-    return render(request, 'contratacoes/registrar.html', {'form': form})
+        erros = []
+        if not aluno_id:
+            erros.append('Aluno é obrigatório.')
+        if not data_admissao:
+            erros.append('Data de admissão é obrigatória.')
+        if erros:
+            for erro in erros:
+                messages.error(request, erro)
+        else:
+            Contratacao.objects.create(
+                aluno_id=aluno_id,
+                data_admissao=data_admissao,
+                cargo=cargo,
+                salario=salario,
+                registrada_por=request.user
+            )
+            return redirect('sucesso_contratacao')
+
+    return render(request, 'contratacoes/registrar.html')
 
 @login_required
 def perfil_view(request):
