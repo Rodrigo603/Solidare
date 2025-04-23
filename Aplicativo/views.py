@@ -156,6 +156,20 @@ def apadrinhamento_view(request):
     return render(request, 'apadrinhamento.html')
 
 @login_required
+def indicar_aluno(request):
+    if request.method == 'POST':
+        form = IndicacaoForm(request.POST)
+        if form.is_valid():
+            indicacao = form.save(commit=False)
+            indicacao.colaborador = request.user
+            indicacao.save()
+            return redirect('sucesso_indicacao')
+    else:
+        form = IndicacaoForm()
+
+    return render(request, 'indicacoes/indicar.html', {'form': form})
+
+@login_required
 def perfil_view(request):
     profile, _ = Profile.objects.get_or_create(user=request.user)
     is_editing = request.GET.get('editar') == '1'
@@ -173,6 +187,7 @@ def perfil_view(request):
         if foto:
             profile.foto = foto
         profile.save()
+
 
         messages.success(request, "Perfil atualizado com sucesso!")
         return redirect('perfil')
