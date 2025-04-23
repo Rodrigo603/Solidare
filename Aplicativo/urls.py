@@ -19,4 +19,5 @@ urlpatterns = [
     path('apadrinhados/',lista_apadrinhados, name='lista_apadrinhados'),
     path('apadrinhados/editar<int:apadrinhado_id>/editar', editar_apadrinhados, name='editar_apadrinhado'),
     path('apadrinhados/excluir<int:apadrinhado_id>/excluir', excluir_apadrinhado, name='excluir_apadrinhado'),
+    path('aplicativo/', include('Aplicativo.urls')),
 ]
