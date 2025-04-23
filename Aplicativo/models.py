@@ -9,7 +9,6 @@ class Perfil(models.Model):
         ('administrador', 'Administrador'),
         ('colaborador', 'Colaborador'),
     )
-
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     tipo_usuario = models.CharField(max_length=20, choices=TIPOS_USUARIO)
 
@@ -24,7 +23,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'Perfil de {self.user.username}'
-    
+
     @property
     def foto_url(self):
         if self.foto:
@@ -37,17 +36,20 @@ def criar_ou_atualizar_perfil(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
     else:
         instance.profile.save()
+
 class Aluno(models.Model):
     nome = models.CharField(max_length=100)
     foto = models.ImageField(upload_to='alunos_fotos/')
     apadrinhado_por = models.ForeignKey(User, on_delete=models.CASCADE, related_name='apadrinhados')
 
+    def __str__(self):
+        return self.nome
+
 class Apadrinhado(models.Model):
     GENERO_CHOICES = [
-        ('M','Masculino'),
-        ('F','Feminino'),
+        ('M', 'Masculino'),
+        ('F', 'Feminino'),
     ]
-
     nome = models.CharField(max_length=100)
     idade = models.PositiveIntegerField()
     genero = models.CharField(max_length=1, choices=GENERO_CHOICES)
@@ -84,12 +86,28 @@ class ComentarioProfessor(models.Model):
 
 class Indicacao(models.Model):
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    colaborador = models.ForeignKey(User, on_delete=models.CASCADE, related_name='indicacoes_feitas')
     empresa = models.CharField(max_length=100)
     descricao_vaga = models.TextField()
     recomendacao = models.TextField()
     status = models.CharField(max_length=30, default='Pendente')
 
+    def __str__(self):
+        return f"{self.aluno.nome} indicado por {self.colaborador.username} para {self.empresa}"
+
 class FeedbackEmpresa(models.Model):
     indicacao = models.OneToOneField(Indicacao, on_delete=models.CASCADE)
     feedback = models.TextField()
     data = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Feedback sobre {self.indicacao.aluno.nome} em {self.data}"
+
+class Contratacao(models.Model):
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    empresa = models.CharField(max_length=100)
+    data_contratacao = models.DateField()
+    registrada_por = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f"{self.aluno.nome} contratado por {self.empresa}"
