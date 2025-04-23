@@ -19,5 +19,8 @@ urlpatterns = [
     path('apadrinhados/',lista_apadrinhados, name='lista_apadrinhados'),
     path('apadrinhados/editar<int:apadrinhado_id>/editar', editar_apadrinhados, name='editar_apadrinhado'),
     path('apadrinhados/excluir<int:apadrinhado_id>/excluir', excluir_apadrinhado, name='excluir_apadrinhado'),
+    path('indicar/', views.indicar_aluno, name='indicar_aluno'),
+    path('contratar/', views.registrar_contratacao, name='registrar_contratacao'),
+    path('sucesso/', lambda request: render(request, 'sucesso.html'), name='sucesso_contratacao'),
     path('aplicativo/', include('Aplicativo.urls')),
 ]
