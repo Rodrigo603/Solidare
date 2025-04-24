@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
-from .models import Aluno, Doacao, Boletim, ComentarioProfessor, Perfil
+from .models import Aluno, Doacao, Boletim, ComentarioProfessor, Perfil,Profile
 from django.db import IntegrityError
 from .models import Apadrinhado
 from django.http import HttpResponseForbidden
