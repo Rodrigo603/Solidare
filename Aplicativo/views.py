@@ -41,7 +41,7 @@ def registrar_view(request):
             messages.error(request, "Erro ao criar o usuário.")
     return render(request, 'registrar.html')
 
-
+@login_required
 def registrar_apadrinhado_view(request):
     if not request.user.perfil.tipo_usuario == 'administrador':
         return HttpResponseForbidden("Apenas administradores podem cadastrar apadrinhados.")
@@ -85,6 +85,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+@login_required
 def lista_apadrinhados(request):
     
     try:
@@ -125,8 +126,10 @@ def excluir_apadrinhado(request, apadrinhado_id):
         apadrinhado.delete()
     return redirect('lista_apadrinhados')
 
+@login_required
 def mensagens_view(request):
-    alunos = Aluno.objects.filter(aluno_por=request.user)
+    
+    alunos = Aluno.objects.filter(apadrinhado_por=request.user)
     return render(request, 'mensagens.html', {'alunos': alunos})
 
 @login_required
@@ -144,7 +147,7 @@ def progresso_view(request, aluno_id):
 def impacto_view(request):
     doacoes = Doacao.objects.filter(usuario=request.user)
     total = sum(d.valor for d in doacoes if d.valor)
-    alunos = Aluno.objects.filter(aluno_por=request.user).count()
+    alunos = Aluno.objects.filter(apadrinhado_por=request.user).count()
     return render(request, 'impacto.html', {'total_doado': total, 'num_alunos': alunos})
 
 @login_required

@@ -16,7 +16,7 @@
           <a href="{% url 'mensagens' %}">Mensagens</a>
           <a href="{% url 'doacoes' %}">Doações</a>
           <a href="{% url 'impacto' %}">Meu Impacto</a>
-          <a href="{% url 'banco_talentos' %}">Banco de Talentos</a>
+          <a href="{% url 'lista_apadrinhados' %}">Banco de Talentos</a>
           <a href="{% url 'apadrinhar' %}">Apadrinhe</a>
         </nav>
       </div>
@@ -26,7 +26,7 @@
           {% if user.profile.foto %}
             <img src="{{ user.profile.foto.url }}" alt="Perfil" class="header-profile-pic">
           {% else %}
-            <img src="{% static 'user-icon.jpg' %}" alt="Ícone padrão" class="header-profile-pic">
+            <img src="{% static 'img/user-icon.jpg' %}" alt="Ícone padrão" class="header-profile-pic">
           {% endif %}
         </a>
         <form method="post" action="{% url 'logout' %}" style="margin: 0;">
