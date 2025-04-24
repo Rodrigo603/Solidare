@@ -45,17 +45,6 @@ class Aluno(models.Model):
     def __str__(self):
         return self.nome
 
-class Apadrinhado(models.Model):
-    GENERO_CHOICES = [
-        ('M', 'Masculino'),
-        ('F', 'Feminino'),
-    ]
-    nome = models.CharField(max_length=100)
-    idade = models.PositiveIntegerField()
-    genero = models.CharField(max_length=1, choices=GENERO_CHOICES)
-
-    def __str__(self):
-        return self.nome
 
 class Mensagem(models.Model):
     remetente = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -111,3 +100,23 @@ class Contratacao(models.Model):
 
     def __str__(self):
         return f"{self.aluno.nome} contratado por {self.empresa}"
+
+class Apadrinhado(models.Model):
+    GENERO_CHOICES = [
+        ('M', 'Masculino'),
+        ('F', 'Feminino'),
+    ]
+
+    nome = models.CharField(max_length=100)
+    idade = models.PositiveIntegerField()
+    genero = models.CharField(
+        max_length=1,
+        choices=GENERO_CHOICES,   # use exatamente o mesmo nome e maiúsculas
+    )
+    apadrinhado_por = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='meus_apadrinhados',
+        blank=True,
+        null=True,
+    )

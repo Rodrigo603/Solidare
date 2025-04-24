@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Meus Apadrinhados{% endblock %}
+
+{% block content %}
+<style>
+  .my-sponsor-section { padding:2rem; }
+  .my-sponsor-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.5rem; list-style:none; padding:0; }
+  .my-sponsor-card { background:#fff; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); padding:1rem; text-align:center; }
+  .my-sponsor-card img { max-width:100%; border-radius:4px; }
+  .my-sponsor-card h3 { margin:0.5rem 0; }
+  .btn-progress { display:inline-block; margin-top:0.5rem; padding:0.5rem 1rem; background:#007bff; color:#fff; border-radius:4px; text-decoration:none; }
+  .btn-progress:hover { background:#0056b3; }
+  .no-data { text-align:center; font-style:italic; }
+</style>
+
+<section class="my-sponsor-section">
+  <h2>Meus Apadrinhados</h2>
+  {% if apadrinhados %}
+    <ul class="my-sponsor-grid">
+      {% for aluno in apadrinhados %}
+        <li class="my-sponsor-card">
+          {% if aluno.foto %}
+            <img src="{{ aluno.foto.url }}" alt="{{ aluno.nome }}">
+          {% endif %}
+          <h3>{{ aluno.nome }}</h3>
+          <p><a href="{% url 'progresso' aluno.id %}" class="btn-progress">Ver Progresso</a></p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="no-data">Você ainda não apadrinhou ninguém.</p>
+  {% endif %}
+</section>
+{% endblock %}

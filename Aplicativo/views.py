@@ -182,11 +182,20 @@ def apadrinhamento_view(request):
 def apadrinhar_detalhes(request, apadrinhado_id):
     ap = get_object_or_404(Apadrinhado, id=apadrinhado_id)
     if request.method == 'POST':
+        ap.apadrinhado_por = request.user
+        ap.save()
         # aqui você executa a lógica de “apadrinhar” (salvar no banco, enviar email etc.)
         messages.success(request, f'Você escolheu apadrinhar {ap.nome}.')
-        return redirect('apadrinhar')
+        return redirect('meus_apadrinhados')
     return render(request, 'apadrinhar_confirm.html', {
         'apadrinhado': ap
+    })
+
+@login_required
+def meus_apadrinhados_view(request):
+    meus = Apadrinhado.objects.filter(apadrinhado_por=request.user)
+    return render(request, 'meus_apadrinhados.html', {
+        'apadrinhados': meus
     })
 
 @login_required
