@@ -1,52 +1,14 @@
+{% extends 'baseAdmin.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Solidare{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'base.css' %}">
-</head>
-<body>
-    <header style="display: flex; align-items: center; justify-content: space-between;">
-      <div style="display: flex; align-items: center;">
-        <a href="{% url 'home' %}">
-          <img src="{% static 'img/logo.jpg' %}" alt="Logo do site" style="width: 80px; height: 90px; margin-right: 1rem;">
-        </a>
-        <nav>
-          <a href="{% url 'homeAdmin' %}">Inicio</a>
-          <a href="{% url 'registrar_apadrinhado' %}">Cadastrar apadrinhado</a>
-          <a href="{% url 'lista_apadrinhados' %}">Lista de apadrinhados</a>
-        </nav>
-      </div>
-      <div style="display: flex; align-items: center;">
-        {% if user.is_authenticated %}
-        <a href="{% url 'perfil' %}">
-          {% if user.profile.foto %}
-            <img src="{{ user.profile.foto.url }}" alt="Perfil" class="header-profile-pic">
-          {% else %}
-            <img src="{% static 'img/user-icon.jpg' %}" alt="Ícone padrão" class="header-profile-pic">
-          {% endif %}
-        </a>
-        <form method="post" action="{% url 'logout' %}" style="margin: 0;">
-          {% csrf_token %}
-          <button type="submit" style="background:none; border:none; color:white; font-weight:400; cursor:pointer;">Sair</button>
-        </form>
-      {% else %}
-        <a href="{% url 'login' %}" style="color: white; font-weight: 700; margin-right: 1rem;">Login</a>
-        <a href="{% url 'registrar' %}" style="color: white; font-weight: 400;">Cadastro</a>
-      {% endif %}
-      </div>
-    </header>  
-    <div class="home-hero">
-      <img src="{% static 'img/hero-placeholder.jpg' %}" alt="Imagem destaque" class="hero-image">
-    </div>
-    
-    <main>
-        {% block content %}{% endblock %}
-    </main>
 
-    <footer>
-        <p>&copy; 2025 - Solidare</p>
-    </footer>
-</body>
-</html>
+{% block title %}Início{% endblock %}
+
+{% block content %}
+<div class="home-hero">
+  <img src="{% static 'img/hero-placeholder.jpg' %}" alt="Imagem destaque" class="hero-image">
+  <div class="hero-buttons">
+    <a href="{% url 'registrar_apadrinhado' %}" class="hero-btn">Cadastrar Apadrinhado</a>
+    <a href="{% url 'lista_apadrinhados' %}" class="hero-btn">Lista Apadrinhados</a>
+  </div>
+</div>
+{% endblock %}
