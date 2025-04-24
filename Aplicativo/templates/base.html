@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Solidare{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
 </head>
 <body>
     <header style="display: flex; align-items: center; justify-content: space-between;">
       <div style="display: flex; align-items: center;">
         <a href="{% url 'home' %}">
-          <img src="{% static 'img/logo.png' %}" alt="Logo do site" style="width: 80px; height: 90px; margin-right: 1rem;">
+          <img src="{% static 'logo.png' %}" alt="Logo do site" style="width: 80px; height: 90px; margin-right: 1rem;">
         </a>
         <nav>
           <a href="{% url 'mensagens' %}">Mensagens</a>
@@ -26,7 +26,7 @@
           {% if user.profile.foto %}
             <img src="{{ user.profile.foto.url }}" alt="Perfil" class="header-profile-pic">
           {% else %}
-            <img src="{% static 'img/user-icon.jpg' %}" alt="Ícone padrão" class="header-profile-pic">
+            <img src="{% static 'user-icon.jpg' %}" alt="Ícone padrão" class="header-profile-pic">
           {% endif %}
         </a>
         <form method="post" action="{% url 'logout' %}" style="margin: 0;">

@@ -1,36 +1,43 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Editar apadrinhados {% endblock %}
+{% block title %}Editar apadrinhados{% endblock %}
 
 {% block content %}
-<section class="page-header">
-    <h1><i class="fas fa-edit"></i> Editar apadrinhados</h1>
-</section>
+<div class="container">
+    <div class="content-box">
+        <h2><i class="fas fa-edit"></i> Editar apadrinhados</h2>
 
-<div class="card">
-    <form method="post">
-        {% csrf_token %}
-        
-        <div class="form-group">
-            <label for="nome">Nome do apadrinhado:</label>
-            <input type="text" id="nome" name="nome" value="{{ apadrinhado.nome }}" class="form-control" required>
-        </div>
+        <form method="post" class="profile-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="nome">Nome do apadrinhado:</label>
+                <input type="text" id="nome" name="nome" value="{{ apadrinhado.nome }}" required>
+            </div>
 
-        <div class="form-group">
-            <label for="idade">Idade:</label>
-            <input type="number" id="idade" name="idade" value="{{ apadrinhado.idade }}" class="form-control" required>
-        </div>
+            <div class="form-group">
+                <label for="idade">Idade:</label>
+                <input type="number" id="idade" name="idade" value="{{ apadrinhado.idade }}" required>
+            </div>
 
-        <div class="form-group">
-            <label for="genero">Gênero:</label>
-            <input type="text" id="genero" name="genero" value="{{ apadrinhado.genero }}" class="form-control" required>
-        </div>
+            <div class="form-group">
+                <label for="genero">Gênero:</label>
+                <select id="genero" name="genero" required>
+                    <option value="M" {% if apadrinhado.genero == 'M' %}selected{% endif %}>Masculino</option>
+                    <option value="F" {% if apadrinhado.genero == 'F' %}selected{% endif %}>Feminino</option>
+                </select>
+            </div>
 
-        <div class="form-actions">
-            <button type="submit" class="btn"><i class="fas fa-save"></i> Salvar</button>
-            <a href="{% url 'lista_apadrinhados' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
-        </div>
-    </form>
+            <div class="action-container">
+                <button type="submit" class="btn-edit">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+                <a href="{% url 'lista_apadrinhados' %}" class="btn-delete">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

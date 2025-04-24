@@ -159,13 +159,11 @@ def apadrinhamento_view(request):
 @login_required
 def indicar_aluno(request):
     if request.method == 'POST':
-        # capturar dados
         aluno_id        = request.POST.get('aluno_id')
         empresa         = request.POST.get('empresa')
         descricao_vaga  = request.POST.get('descricao_vaga')
         recomendacao    = request.POST.get('recomendacao')
 
-        # validação mínima
         erros = []
         if not aluno_id:
             erros.append('Selecione o aluno.')
@@ -176,7 +174,6 @@ def indicar_aluno(request):
         if not recomendacao:
             erros.append('Escreva sua recomendação.')
 
-        # exibir erros, se houver
         if erros:
             for erro in erros:
                 messages.error(request, erro)
@@ -192,12 +189,10 @@ def indicar_aluno(request):
                     empresa     = empresa,
                     descricao_vaga = descricao_vaga,
                     recomendacao = recomendacao,
-                    # status fica no default “Pendente”
                 )
                 return redirect('sucesso_indicacao')
-
-    # GET ou POST inválido → mostra o formulário
-    alunos = Aluno.objects.all()   # para popular um <select>
+            
+    alunos = Aluno.objects.all() 
     return render(request, 'indicar.html', {'alunos': alunos})
 
 @login_required

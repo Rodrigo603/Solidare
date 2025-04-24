@@ -1,9 +1,41 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block title %}Doações{% endblock %}
+
 {% block content %}
-<h2>Doações</h2>
-<div class="card">
-    <p><a href="#">Doação Financeira</a></p>
-    <p><a href="#">Doação Material</a></p>
+<div class="auth-wrapper">
+    <div class="auth-box">
+        <h2>Fazer uma Doação</h2>
+        
+        <form method="post" class="profile-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="valor">Valor da Doação (R$):</label>
+                <input type="number" id="valor" name="valor" min="1" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tipo_doacao">Tipo de Doação:</label>
+                <select id="tipo_doacao" name="tipo_doacao" required>
+                    <option value="mensal">Doação Mensal</option>
+                    <option value="unica">Doação Única</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mensagem">Mensagem (opcional):</label>
+                <textarea id="mensagem" name="mensagem" rows="4"></textarea>
+            </div>
+
+            <button type="submit" class="hero-btn">Confirmar Doação</button>
+        </form>
+
+        <div class="card" style="margin-top: 2rem;">
+            <h3>Sua Contribuição é Importante!</h3>
+            <p>Suas doações ajudam a transformar a vida de jovens através da educação.</p>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
+<div class = "auth-wrapper">
+    <div class = "auth-box">
     <h2>Cadastro de Apadrinhado</h2>
 
     {% if messages %}
@@ -25,7 +26,7 @@
             <input type="number" id="idade" name="idade" min="0" max="18" required>
         </div>
 
-        <div>
+        <div class = "naamuda">
             <label for="genero">Gênero*</label>
             <select id="genero" name="genero" required>
                 <option value="">Selecione</option>
@@ -34,9 +35,11 @@
             </select>
         </div>
 
-        <div>
+        <div class = "alinhar">
             <button type="submit">Cadastrar</button>
+            
             <a href="{% url 'home' %}">Voltar</a>
+            </div>
         </div>
     </form>
 </div>

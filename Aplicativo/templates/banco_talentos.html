@@ -1,11 +1,40 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block title %}Banco de Talentos{% endblock %}
+
 {% block content %}
-<h2>Banco de Talentos</h2>
-{% for aluno in alunos %}
-    <div class="card">
-        <h3>{{ aluno.nome }}</h3>
-        <a href="#">Indicar para vaga</a>
+<div class="auth-wrapper">
+    <div class="auth-box" style="max-width: 800px;">
+        <h2>Banco de Talentos</h2>
+        
+        {% for aluno in alunos %}
+            <div class="card">
+                <div class="profile-form">
+                    <h3>{{ aluno.nome }}</h3>
+                    
+                    <div class="form-group">
+                        <label>Habilidades:</label>
+                        <p>{{ aluno.habilidades|default:"Não informado" }}</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Experiência:</label>
+                        <p>{{ aluno.experiencia|default:"Não informado" }}</p>
+                    </div>
+                    
+                    <button class="hero-btn" onclick="window.location.href='#'">
+                        Indicar para vaga
+                    </button>
+                </div>
+            </div>
+        {% endfor %}
+        
+        {% if not alunos %}
+            <div class="card">
+                <p class="text-center">Nenhum aluno cadastrado no banco de talentos.</p>
+            </div>
+        {% endif %}
     </div>
-{% endfor %}
+</div>
 {% endblock %}

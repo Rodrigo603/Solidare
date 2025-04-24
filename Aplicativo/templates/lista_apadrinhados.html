@@ -4,54 +4,58 @@
 {% block title %}Lista de Apadrinhados{% endblock %}
 
 {% block content %}
-<div>
-    <h2>Lista de Apadrinhados</h2>
+<div class="container">
+    <div class="content-box">
+        <h2>Lista de Apadrinhados</h2>
 
-    {% if messages %}
-        {% for message in messages %}
-            <div>{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-
-    <table>
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Idade</th>
-                <th>Gênero</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for apadrinhado in apadrinhados %}
-                <tr>
-                    <td>{{ apadrinhado.nome }}</td>
-                    <td>{{ apadrinhado.idade }}</td>
-                    <td>
-                        {% if apadrinhado.genero == 'M' %}
-                            Masculino
-                        {% elif apadrinhado.genero == 'F' %}
-                            Feminino
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a href="{% url 'editar_apadrinhado' apadrinhado.id %}">Editar</a>
-                        <form method="post" action="{% url 'excluir_apadrinhado' apadrinhado.id %}" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este apadrinhado?');">Excluir</button>
-                        </form>
-                    </td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">Nenhum apadrinhado cadastrado.</td>
-                </tr>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message-alert">{{ message }}</div>
             {% endfor %}
-        </tbody>
-    </table>
+        {% endif %}
 
-    <div>
-        <a href="{% url 'registrar_apadrinhado' %}">Cadastrar novo apadrinhado</a>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Idade</th>
+                        <th>Gênero</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for apadrinhado in apadrinhados %}
+                        <tr>
+                            <td>{{ apadrinhado.nome }}</td>
+                            <td>{{ apadrinhado.idade }}</td>
+                            <td>
+                                {% if apadrinhado.genero == 'M' %}
+                                    Masculino
+                                {% elif apadrinhado.genero == 'F' %}
+                                    Feminino
+                                {% endif %}
+                            </td>
+                            <td class="action-buttons">
+                                <a href="{% url 'editar_apadrinhado' apadrinhado.id %}" class="btn-edit">Editar</a>
+                                <form method="post" action="{% url 'excluir_apadrinhado' apadrinhado.id %}" class="delete-form">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir este apadrinhado?');">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="no-data">Nenhum apadrinhado cadastrado.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="action-container">
+            <a href="{% url 'registrar_apadrinhado' %}" class="btn-new">Cadastrar novo apadrinhado</a>
+        </div>
     </div>
 </div>
 {% endblock %}
