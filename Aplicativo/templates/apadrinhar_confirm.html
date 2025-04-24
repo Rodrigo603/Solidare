@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Confirmar Apadrinhamento{% endblock %}
+
+{% block content %}
+<style>
+  .confirm-section { max-width: 500px; margin: 2rem auto; background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+  .confirm-section h2 { text-align: center; margin-bottom: 1.5rem; font-size: 1.5rem; }
+  .student-details p { margin: 0.5rem 0; }
+  .actions { display: flex; justify-content: space-between; margin-top: 2rem; }
+  .actions button, .actions a { flex: 1; text-align: center; padding: 0.75rem; border-radius: 4px; text-decoration: none; font-weight: bold; }
+  .actions button { background: #28a745; color: white; border: none; margin-right: 0.5rem; }
+  .actions button:hover { background: #218838; }
+  .actions a { background: #dc3545; color: white; }
+  .actions a:hover { background: #c82333; }
+</style>
+<div class="confirm-section">
+  <h2>Confirmar apadrinhamento</h2>
+  <div class="student-details">
+    <p><strong>Nome:</strong> {{ apadrinhado.nome }}</p>
+    <p><strong>Idade:</strong> {{ apadrinhado.idade }} anos</p>
+    <p><strong>Gênero:</strong> {% if apadrinhado.genero == 'M' %}Masculino{% else %}Feminino{% endif %}</p>
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    <div class="actions">
+      <button type="submit">Confirmar</button>
+      <a href="{% url 'apadrinhar' %}">Voltar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

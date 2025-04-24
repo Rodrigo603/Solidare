@@ -171,7 +171,23 @@ def banco_talentos_view(request):
 
 @login_required
 def apadrinhamento_view(request):
-    return render(request, 'apadrinhamento.html')
+    # carrega todos os apadrinhados
+    apadrinhados = Apadrinhado.objects.all()
+    # sempre retorna um HttpResponse
+    return render(request, 'apadrinhar.html', {
+        'apadrinhados': apadrinhados
+    })
+    
+@login_required
+def apadrinhar_detalhes(request, apadrinhado_id):
+    ap = get_object_or_404(Apadrinhado, id=apadrinhado_id)
+    if request.method == 'POST':
+        # aqui você executa a lógica de “apadrinhar” (salvar no banco, enviar email etc.)
+        messages.success(request, f'Você escolheu apadrinhar {ap.nome}.')
+        return redirect('apadrinhar')
+    return render(request, 'apadrinhar_confirm.html', {
+        'apadrinhado': ap
+    })
 
 @login_required
 def indicar_aluno(request):
