@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'homeAdmin.html' %}
 {% load static %}
 
 {% block title %}Lista de Apadrinhados{% endblock %}
@@ -54,7 +54,11 @@
         </div>
 
         <div class="action-container">
-            <a href="{% url 'registrar_apadrinhado' %}" class="btn-new">Cadastrar novo apadrinhado</a>
+            <div style="text-align: center;">
+                <a href="{% url 'registrar_apadrinhado' %}" class="btn-new">Cadastrar novo apadrinhado</a>
+                <br>
+                <a href="{% url 'homeAdmin' %}" style="color: black; text-decoration: none;">Voltar</a>
+            </div>
         </div>
     </div>
 </div>

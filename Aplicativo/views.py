@@ -12,6 +12,9 @@ from .models import Indicacao, Contratacao
 def home_view(request):
     return render(request, 'home.html')
 
+def home_admin_view(request):
+    return render(request, 'homeAdmin.html')
+
 def registrar_view(request):
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()
@@ -72,13 +75,24 @@ def login_view(request):
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
+        
         if user is not None:
             login(request, user)
-            return redirect('home')
+
+            try:
+                perfil = Perfil.objects.get(user=user)
+                if perfil.tipo_usuario == 'administrador':
+                    return redirect('homeAdmin') 
+                else:
+                    return redirect('home')  
+            except Perfil.DoesNotExist:
+                return render(request, "login.html", {"erro": "Perfil de usuário não encontrado."})
+        
         else:
             return render(request, "login.html", {"erro": "Usuário ou senha inválidos"})
 
     return render(request, "login.html")
+
 @login_required
 
 def logout_view(request):

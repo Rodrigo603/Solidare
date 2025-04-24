@@ -1,10 +1,12 @@
 from django.urls import path
-from .views import editar_apadrinhados, excluir_apadrinhado, home_view, mensagens_view, doacoes_view, progresso_view
+from .views import editar_apadrinhados, excluir_apadrinhado, home_admin_view, home_view, mensagens_view, doacoes_view, progresso_view
 from .views import impacto_view, banco_talentos_view, registrar_view, apadrinhamento_view,logout_view
 from .views import perfil_view, registrar_apadrinhado_view,login_view,lista_apadrinhados,editar_apadrinhados, indicar_aluno, registrar_contratacao
 
+
 urlpatterns = [
     path('', home_view, name='home'),
+    path('home/admin/', home_admin_view, name='homeAdmin'),
     path('registrar/', registrar_view, name='registrar'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
