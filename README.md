@@ -70,7 +70,7 @@ Aplicação web do programa de apadrinhamento dos alunos do Projeto Alvo Certo, 
     
    **Então** o sistema deve bloquear o envio do formulário
     e exibir mensagens de erro em destaque informando os campos faltantes (ex: “O campo Nome é obrigatório”).
-   ### História nº 2: Apadrinhamento de alunos
+   ### História nº 2: Apadrinhamento de alunos.
 
    Como colaborador da instituição,
     quero visualizar a lista de alunos disponíveis para apadrinhamento,
@@ -100,8 +100,15 @@ Aplicação web do programa de apadrinhamento dos alunos do Projeto Alvo Certo, 
    
 
 
-   [Deploy](https://crescerjuntos.azurewebsites.net/)
+   ## Deployment
+
+   [deploy do site Crescer Juntos](https://crescerjuntos.azurewebsites.net/)
     
+   ## Relatório programação em par
 
+   [Relatorio](https://www.google.com/search?q=relatorio&oq=relatorio&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTINCAEQLhjHARjRAxiABDIHCAIQABiABDIHCAMQLhiABDIHCAQQABiABDIHCAUQABiABDINCAYQLhjHARjRAxiABDIHCAcQABiABDIHCAgQABiABDIHCAkQABiPAtIBCDE2MzJqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8)
 
+   ## Sketches e storyboards
+
+   
 </details>
