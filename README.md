@@ -106,9 +106,9 @@ Aplicação web do programa de apadrinhamento dos alunos do Projeto Alvo Certo, 
     
    ## Relatório programação em par
 
-   [Relatorio](https://www.google.com/search?q=relatorio&oq=relatorio&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTINCAEQLhjHARjRAxiABDIHCAIQABiABDIHCAMQLhiABDIHCAQQABiABDIHCAUQABiABDINCAYQLhjHARjRAxiABDIHCAcQABiABDIHCAgQABiABDIHCAkQABiPAtIBCDE2MzJqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8)
+   [Relatório](https://docs.google.com/document/d/10dt_6UkQ73hmhbcdxdvz087hH_v_gVox6J6LYE2CLsk/edit?tab=t.0)
 
    ## Sketches e storyboards
 
-   
+
 </details>
