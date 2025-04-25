@@ -51,7 +51,7 @@ Aplicação web do programa de apadrinhamento dos alunos do Projeto Alvo Certo, 
 <details>
   <summary>✅Status report 1</summary>
    
-   ## Histórias implementadas:
+   ## Histórias implementadas
    ### História  nº 1: Cadastrar apadrinhados.
    
    Como administrador do sistema,quero poder cadastrar novos apadrinhados preenchendo informações obrigatórias,Para que eles sejam incluídos corretamente na lista de apadrinhados e possam ser acompanhados pelos colaboradores.
@@ -98,17 +98,26 @@ Aplicação web do programa de apadrinhamento dos alunos do Projeto Alvo Certo, 
 
    ## Diagrama de atividades
    
-
+   ![Diagrama](media/fotos_perfil/Diagramadeatividades.png)
 
    ## Deployment
 
-   [deploy do site Crescer Juntos](https://crescerjuntos.azurewebsites.net/)
+   [Deploy do site Crescer Juntos](https://crescerjuntos.azurewebsites.net/)
     
    ## Relatório programação em par
 
    [Relatório](https://docs.google.com/document/d/10dt_6UkQ73hmhbcdxdvz087hH_v_gVox6J6LYE2CLsk/edit?tab=t.0)
 
-   ## Sketches e storyboards
+   ## Sketches/storyboards
+   
+   ![Sketches](media/fotos_perfil/sketches.jpg)
 
+   ## Bugtracker
+   ![bug1](media/fotos_perfil/bug1.png)
 
+   ![bug2](media/fotos_perfil/bug2.png)
+
+   ![bug3](media/fotos_perfil/bug3.png)
+
+   ![bug4](media/fotos_perfil/bug4.png)
 </details>
