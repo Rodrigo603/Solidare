@@ -28,7 +28,9 @@ if NOT_PROD:
 else:
     SECRET_KEY = os.getenv('SECRET_KEY')
     DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
+
     ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
+    
     CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(' ')
 
     SECURE_SSL_REDIRECT = \

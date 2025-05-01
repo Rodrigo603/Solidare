@@ -8,8 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-22.04
-    environment:
-      name: production
+    environment: production
 
     steps:
       - uses: actions/checkout@v3
@@ -27,8 +26,8 @@ jobs:
       - name: Run migrations
         run: python manage.py migrate --noinput
 
-      - name: Collect static
-        run: python manage.py collectstatic --noinput
+      - name: Collect static files
+        run: python manage.py collectstatic --noinput --clear
 
       - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v2
