@@ -9,17 +9,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 DEBUG = os.getenv("DEBUG", "False").lower() in {"1", "true", "yes"}
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "solidare-webapp.azurewebsites.net",
-]
-# Se quiser habilitar provisoriamente qualquer host, adicione "*" (remova depois!)
-
-# CSRF
-CSRF_TRUSTED_ORIGINS = [
-    "https://solidare-webapp.azurewebsites.net",
-]
+# Hosts e CSRF
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
+# Exemplo de valor em Azure: "solidare-webapp.azurewebsites.net,169.254.133.2"
+CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
 
 # Banco de dados: SQLite local em dev, persistente em Azure
 if os.getenv("WEBSITE_SITE_NAME"):  # estamos no App Service
