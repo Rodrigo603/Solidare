@@ -29,9 +29,13 @@ else:
     SECRET_KEY = os.getenv('SECRET_KEY')
     DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
 
-    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
-    
-    CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(' ')
+    # lê ALLOWED_HOSTS da env, separado por vírgula
+    _raw_hosts = os.getenv('ALLOWED_HOSTS', '')
+    ALLOWED_HOSTS = [h.strip() for h in _raw_hosts.split(',') if h.strip()]
+
+    # CSRF_TRUSTED_ORIGINS (opcional)
+    _raw_csrf = os.getenv('CSRF_TRUSTED_ORIGINS', '')
+    CSRF_TRUSTED_ORIGINS = [u.strip() for u in _raw_csrf.split(',') if u.strip()]
 
     SECURE_SSL_REDIRECT = \
         os.getenv('SECURE_SSL_REDIRECT', '0').lower() in ['true', 't', '1']
