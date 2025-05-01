@@ -9,7 +9,7 @@ Aplicação web do programa de apadrinhamento dos alunos do Projeto Alvo Certo, 
   <a href="https://www.figma.com/design/A0pMdV0Ep0xTwSGCeuCHUL/Grupo-03-Prot%C3%B3tipo?node-id=0-1&p=f&t=KajQFUUE1z6BGEe5-0">
     <img src="https://img.shields.io/badge/Figma-4B0082?style=for-the-badge&logo=Figma&logoColor=white" alt="Figma">
   </a>
-  <a href="https://crescerjuntos.azurewebsites.net/">
+  <a href="https://crescer-juntos.azurewebsites.net/">
     <img src="https://img.shields.io/badge/crescerjuntos-0074D9?style=for-the-badge&logoColor=white" alt="crescerjuntos">
   </a>
 </div>
