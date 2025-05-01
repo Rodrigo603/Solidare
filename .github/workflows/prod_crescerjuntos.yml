@@ -2,8 +2,7 @@ name: Build & Deploy Solidare to Azure
 
 on:
   push:
-    branches:
-      - prod
+    branches: [ prod ]
   workflow_dispatch:
 
 jobs:
@@ -13,10 +12,10 @@ jobs:
       contents: read
 
     steps:
-      - name: Check out code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.12
+      - name: Setup Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -31,7 +30,7 @@ jobs:
           python manage.py migrate --noinput
           python manage.py collectstatic --noinput
 
-      - name: Zip for deployment
+      - name: Package for deploy
         run: zip -r release.zip . -x "venv/*"
 
       - name: Upload artifact
@@ -56,12 +55,12 @@ jobs:
       - name: Unzip artifact
         run: unzip release.zip
 
-      - name: Azure login via Publish Profile
+      - name: Azure login via SPN
         uses: azure/login@v2
         with:
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy to Azure Web App
+      - name: Deploy to Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: solidare-webapp
