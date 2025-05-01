@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Build & Deploy para Azure WebApp
+      - name: Deploy para Azure WebApp
         uses: azure/webapps-deploy@v3
         with:
           app-name: solidare-webapp
