@@ -102,7 +102,7 @@ Aplicação web do programa de apadrinhamento dos alunos do Projeto Alvo Certo, 
 
    ## Deployment
 
-   [Deploy do site Crescer Juntos](https://crescerjuntos.azurewebsites.net/)
+   [Deploy do site Crescer Juntos](https://crescer-juntos.azurewebsites.net/)
     
    ## Relatório programação em par
 
