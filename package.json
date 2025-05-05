@@ -2,18 +2,18 @@
   "name": "solidare",
   "version": "1.0.0",
   "description": "Aplicação web do programa de apadrinhamento dos alunos do Projeto Alvo Certo, programa da Instituição Solidare.",
-  "homepage": "https://github.com/Rodrigo603/Solidare#readme",
+  "homepage": "https://github.com/Artur-Antunes-1/Solidare#readme",
   "bugs": {
-    "url": "https://github.com/Rodrigo603/Solidare/issues"
+    "url": "https://github.com/Artur-Antunes-1/Solidare/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rodrigo603/Solidare.git"
+    "url": "git+https://github.com/Artur-Antunes-1/Solidare.git"
   },
   "license": "ISC",
   "author": "",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "cypress.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
