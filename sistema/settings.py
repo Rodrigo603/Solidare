@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Aplicativo',
     'whitenoise.runserver_nostatic',
+    'progresso',
 ]
 
 MIDDLEWARE = [
