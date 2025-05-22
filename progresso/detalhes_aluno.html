@@ -1,0 +1,37 @@
+<!-- progresso/templates/progresso/detalhes_aluno.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Boletim de {{ aluno.nome }}</title>
+</head>
+<body>
+  <h1>Boletim do aluno: {{ aluno.nome }}</h1>
+  
+  <table border="1" cellpadding="5">
+    <thead>
+      <tr>
+        <th>Mês</th>
+        <th>Nota</th>
+        <th>Frequência (%)</th>
+        <th>Comentário do Professor</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in desempenho %}
+      <tr>
+        <td>{{ d.mes }}</td>
+        <td>{{ d.nota }}</td>
+        <td>{{ d.frequencia }}</td>
+        <td>{{ d.comentario_professor }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4">Nenhum registro de desempenho encontrado.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p><a href="{% url 'historico_progresso' aluno.id %}">Ver gráficos de progresso</a></p>
+  <p><a href="{% url 'progresso_filtrado' aluno.id %}">Relatórios personalizados</a></p>
+</body>
+</html>
